@@ -3,6 +3,7 @@ package org.openapitools.openapidiff.core.output;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.OutputStreamWriter;
 import org.junit.jupiter.api.Test;
 import org.openapitools.openapidiff.core.OpenApiCompare;
@@ -10,7 +11,7 @@ import org.openapitools.openapidiff.core.model.ChangedOpenApi;
 
 public class HtmlRenderTest {
   @Test
-  public void renderDoesNotFailWhenPropertyHasBeenRemoved() {
+  public void renderDoesNotFailWhenPropertyHasBeenRemoved() throws IOException {
     HtmlRender render = new HtmlRender();
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream);

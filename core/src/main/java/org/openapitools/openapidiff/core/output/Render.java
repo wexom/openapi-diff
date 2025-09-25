@@ -48,4 +48,9 @@ public interface Render {
       throw new RendererException(ex);
     }
   }
+
+  default void safelyAppendWithNewline(OutputStreamWriter outputStreamWriter, String csq) {
+    safelyAppend(outputStreamWriter, csq);
+    safelyAppend(outputStreamWriter, System.lineSeparator());
+  }
 }

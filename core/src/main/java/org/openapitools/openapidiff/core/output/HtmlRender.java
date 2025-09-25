@@ -59,7 +59,7 @@ import org.openapitools.openapidiff.core.model.Endpoint;
 import org.openapitools.openapidiff.core.utils.RefPointer;
 import org.openapitools.openapidiff.core.utils.RefType;
 
-public class HtmlRender implements Render {
+public class HtmlRender extends RenderSchema {
 
   private static final RefPointer<Schema<?>> refPointer = new RefPointer<>(RefType.SCHEMAS);
   public static final String COMMENT = "comment";
@@ -90,7 +90,7 @@ public class HtmlRender implements Render {
     this.showAllChanges = showAllChanges;
   }
 
-  public void render(ChangedOpenApi diff, OutputStreamWriter outputStreamWriter) {
+  /*public void render(ChangedOpenApi diff, OutputStreamWriter outputStreamWriter) {
     this.diff = diff;
 
     List<Endpoint> newEndpoints = diff.getNewEndpoints();
@@ -107,6 +107,33 @@ public class HtmlRender implements Render {
 
     renderHtml(
         ol_newEndpoint, ol_missingEndpoint, ol_deprecatedEndpoint, ol_changed, outputStreamWriter);
+  }*/
+
+  @Override
+  protected void renderTitle(ChangedOpenApi diff, OutputStreamWriter outputStreamWriter) {
+    safelyAppend(outputStreamWriter, "<h1>");
+    safelyAppend(outputStreamWriter, title);
+    safelyAppendWithNewline(outputStreamWriter, "</h1>");
+  }
+
+  @Override
+  protected void renderDocumentEnd(ChangedOpenApi diff, OutputStreamWriter outputStreamWriter) {
+    safelyAppendWithNewline(outputStreamWriter, "</body>");
+    safelyAppendWithNewline(outputStreamWriter, "</html>");
+  }
+
+  @Override
+  protected void renderDocumentStart(ChangedOpenApi diff, OutputStreamWriter outputStreamWriter) {
+    safelyAppendWithNewline(outputStreamWriter, "<!DOCTYPE html>");
+    safelyAppendWithNewline(outputStreamWriter, "<html>");
+    // TODO add attribute lang en
+    safelyAppendWithNewline(outputStreamWriter, "<head>");
+    safelyAppendWithNewline(outputStreamWriter, "<title>" + title + "</title>");
+    safelyAppendWithNewline(outputStreamWriter, "<meta charset=\"UTF-8\"></meta>");
+    safelyAppendWithNewline(
+        outputStreamWriter, "<link rel=\"stylesheet\" href=\"" + linkCss + "\">");
+    safelyAppendWithNewline(outputStreamWriter, "</head>");
+    safelyAppendWithNewline(outputStreamWriter, "<body>");
   }
 
   public void renderHtml(
